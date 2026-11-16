@@ -1,6 +1,6 @@
 # 接口自动化测试平台（API Test Platform）
 
-![执行报告](docs/screenshot.png)
+![执行报告](https://gitee.com/greedful/api-test-platform/raw/main/docs/screenshot.png)
 
 简化版的"接口测试管理 + 自动化执行"Web 平台（对标 Apifox / MeterSphere 的核心子集），采用 **Java 平台 + Python 执行引擎** 的双进程解耦架构。
 
