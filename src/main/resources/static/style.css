@@ -1,0 +1,100 @@
+:root {
+  --bg: #f5f6f8;
+  --card: #ffffff;
+  --border: #e2e5ea;
+  --text: #22262e;
+  --muted: #6b7280;
+  --brand: #185fa5;
+  --brand-dark: #0c447c;
+  --ok: #1d9e75;
+  --bad: #c0392b;
+  --radius: 10px;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: "Segoe UI", "Microsoft YaHei", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 14px;
+  line-height: 1.6;
+}
+header {
+  background: var(--card);
+  border-bottom: 1px solid var(--border);
+  padding: 12px 24px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+header h1 { font-size: 16px; font-weight: 500; }
+header .spacer { flex: 1; }
+main { max-width: 960px; margin: 24px auto; padding: 0 16px; }
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+  margin-bottom: 16px;
+}
+.auth-box { max-width: 380px; margin: 80px auto; }
+.auth-box h2 { font-size: 15px; font-weight: 500; margin-bottom: 16px; text-align: center; }
+.auth-switch { text-align: center; margin-top: 12px; color: var(--muted); }
+.auth-switch a { color: var(--brand); cursor: pointer; text-decoration: none; }
+input, textarea, select {
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font: inherit;
+  margin-bottom: 12px;
+  background: #fff;
+}
+textarea { min-height: 60px; resize: vertical; font-family: Consolas, monospace; font-size: 13px; }
+button {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 8px;
+  background: var(--brand);
+  color: #fff;
+  font: inherit;
+  cursor: pointer;
+}
+button:hover { background: var(--brand-dark); }
+button.ghost {
+  background: transparent;
+  color: var(--brand);
+  border: 1px solid var(--border);
+}
+button.danger { background: transparent; color: var(--bad); border: 1px solid var(--border); }
+button.small { padding: 4px 10px; font-size: 13px; }
+nav.tabs { display: flex; gap: 8px; margin-bottom: 16px; }
+nav.tabs button { background: var(--card); color: var(--text); border: 1px solid var(--border); }
+nav.tabs button.active { background: var(--brand); color: #fff; border-color: var(--brand); }
+table { width: 100%; border-collapse: collapse; }
+th, td { padding: 8px 10px; border-bottom: 1px solid var(--border); text-align: left; font-size: 13px; }
+th { color: var(--muted); font-weight: 400; }
+.badge { display: inline-block; padding: 1px 8px; border-radius: 999px; font-size: 12px; color: #fff; }
+.badge.ok { background: var(--ok); }
+.badge.bad { background: var(--bad); }
+.badge.running { background: #ba7517; }
+.badge.error { background: #6b7280; }
+.method { font-family: Consolas, monospace; font-size: 12px; font-weight: 700; }
+.method.GET { color: var(--ok); }
+.method.POST { color: var(--brand); }
+.method.PUT { color: #ba7517; }
+.method.DELETE { color: var(--bad); }
+.method.PATCH { color: #993556; }
+.muted { color: var(--muted); font-size: 12px; }
+.bar { height: 8px; background: #edf0f3; border-radius: 4px; overflow: hidden; width: 120px; }
+.bar > div { height: 100%; background: var(--ok); }
+.bar > div.fail { background: var(--bad); }
+.error-msg { color: var(--bad); margin-bottom: 12px; font-size: 13px; min-height: 18px; }
+.toast { position: fixed; top: 16px; right: 16px; background: var(--text); color: #fff; padding: 8px 14px; border-radius: 8px; font-size: 13px; display: none; }
+.modal { position: fixed; inset: 0; background: rgba(0,0,0,.4); display: none; align-items: flex-start; justify-content: center; padding-top: 60px; }
+.modal .card { width: 560px; max-height: 80vh; overflow: auto; }
+.modal h3 { font-size: 14px; font-weight: 500; margin-bottom: 12px; }
+.row2 { display: flex; gap: 12px; }
+.row2 > div { flex: 1; }
+pre.preview { background: #f5f6f8; border: 1px solid var(--border); border-radius: 8px; padding: 8px; font-size: 12px; font-family: Consolas, monospace; max-height: 200px; overflow: auto; white-space: pre-wrap; word-break: break-all; }
+.hidden { display: none !important; }
+label { display: block; font-size: 13px; color: var(--muted); margin-bottom: 4px; }

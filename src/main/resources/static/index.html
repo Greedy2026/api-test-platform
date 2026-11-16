@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>接口自动化测试平台</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <header id="topbar" class="hidden">
+    <h1>接口自动化测试平台</h1>
+    <span class="muted" id="whoami"></span>
+    <span class="spacer"></span>
+    <button class="ghost small" id="logoutBtn">退出登录</button>
+  </header>
+
+  <!-- 登录 / 注册 -->
+  <div class="auth-box card" id="authView">
+    <h2 id="authTitle">登录</h2>
+    <div class="error-msg" id="authError"></div>
+    <label>用户名</label>
+    <input id="authUsername" placeholder="用户名">
+    <label>密码（至少 6 位）</label>
+    <input id="authPassword" type="password" placeholder="密码">
+    <button id="authSubmit" style="width:100%">登录</button>
+    <div class="auth-switch">
+      <span id="authSwitchText">还没有账号？</span><a id="authSwitchLink">立即注册</a>
+    </div>
+  </div>
+
+  <!-- 主界面 -->
+  <main id="mainView" class="hidden">
+    <nav class="tabs">
+      <button data-tab="cases" class="active">接口用例</button>
+      <button data-tab="suites">用例集</button>
+      <button data-tab="runs">执行记录</button>
+    </nav>
+
+    <!-- 用例 -->
+    <section id="tab-cases">
+      <div class="card" style="display:flex;justify-content:space-between;align-items:center;padding:12px 20px">
+        <span class="muted">管理 HTTP 接口用例与断言规则</span>
+        <button id="newCaseBtn">新建用例</button>
+      </div>
+      <div class="card">
+        <table>
+          <thead><tr><th>名称</th><th>方法</th><th>URL</th><th>断言</th><th style="width:120px">操作</th></tr></thead>
+          <tbody id="caseTbody"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- 用例集 -->
+    <section id="tab-suites" class="hidden">
+      <div class="card" style="display:flex;justify-content:space-between;align-items:center;padding:12px 20px">
+        <span class="muted">把用例编组执行，支持定时自动巡检（分钟）</span>
+        <button id="newSuiteBtn">新建用例集</button>
+      </div>
+      <div class="card">
+        <table>
+          <thead><tr><th>名称</th><th>用例数</th><th>定时</th><th>上次执行</th><th style="width:180px">操作</th></tr></thead>
+          <tbody id="suiteTbody"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- 执行记录 -->
+    <section id="tab-runs" class="hidden">
+      <div class="card" style="display:flex;justify-content:space-between;align-items:center;padding:12px 20px">
+        <span class="muted">执行记录与通过率（每 3 秒自动刷新）</span>
+        <button class="ghost small" id="refreshRunsBtn">刷新</button>
+      </div>
+      <div class="card">
+        <table>
+          <thead><tr><th>#</th><th>用例集</th><th>状态</th><th>通过 / 总数</th><th>通过率</th><th>方式</th><th>时间</th><th></th></tr></thead>
+          <tbody id="runTbody"></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <!-- 用例编辑弹窗 -->
+  <div class="modal" id="caseModal">
+    <div class="card">
+      <h3 id="caseModalTitle">新建用例</h3>
+      <div class="error-msg" id="caseError"></div>
+      <label>用例名称</label>
+      <input id="f_name" placeholder="例如：查询用户接口 200">
+      <div class="row2">
+        <div><label>请求方法</label>
+          <select id="f_method">
+            <option>GET</option><option>POST</option><option>PUT</option><option>DELETE</option><option>PATCH</option>
+          </select>
+        </div>
+        <div><label>超时（秒）</label><input id="f_timeout" value="10"></div>
+      </div>
+      <label>URL</label>
+      <input id="f_url" placeholder="https://httpbin.org/get">
+      <label>请求头（JSON 对象，可空）</label>
+      <textarea id="f_headers" placeholder='{"X-Token":"abc"}'></textarea>
+      <label>请求体（POST/PUT 时使用）</label>
+      <textarea id="f_body" placeholder='{"name":"alice"}'></textarea>
+      <label>断言规则（JSON 数组，可空）</label>
+      <textarea id="f_assertions" placeholder='[{"type":"status","op":"eq","value":200},{"type":"json_field","path":"data.name","op":"eq","value":"alice"},{"type":"body_contains","value":"ok"}]'></textarea>
+      <div style="display:flex;gap:8px;justify-content:flex-end">
+        <button class="ghost" onclick="closeModal('caseModal')">取消</button>
+        <button id="caseSaveBtn">保存</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 用例集编辑弹窗 -->
+  <div class="modal" id="suiteModal">
+    <div class="card">
+      <h3 id="suiteModalTitle">新建用例集</h3>
+      <div class="error-msg" id="suiteError"></div>
+      <label>名称</label>
+      <input id="s_name" placeholder="例如：核心接口每日回归">
+      <label>定时执行间隔（分钟，0 = 关闭）</label>
+      <input id="s_schedule" value="0">
+      <label>选择用例</label>
+      <div id="s_cases" style="max-height:200px;overflow:auto;border:1px solid var(--border);border-radius:8px;padding:8px;margin-bottom:12px"></div>
+      <div style="display:flex;gap:8px;justify-content:flex-end">
+        <button class="ghost" onclick="closeModal('suiteModal')">取消</button>
+        <button id="suiteSaveBtn">保存</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 执行详情弹窗 -->
+  <div class="modal" id="runModal">
+    <div class="card">
+      <h3 id="runModalTitle">执行详情</h3>
+      <div id="runModalBody"></div>
+      <div style="display:flex;justify-content:flex-end;margin-top:12px">
+        <button class="ghost" onclick="closeModal('runModal')">关闭</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+  <script src="/app.js"></script>
+</body>
+</html>
