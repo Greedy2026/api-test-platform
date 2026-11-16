@@ -4,7 +4,7 @@
 
 简化版的"接口测试管理 + 自动化执行"Web 平台（对标 Apifox / MeterSphere 的核心子集），采用 **Java 平台 + Python 执行引擎** 的双进程解耦架构。
 
-![架构](docs/architecture.txt)
+> 📐 架构说明见 [docs/architecture.txt](docs/architecture.txt)
 
 ## 功能
 
